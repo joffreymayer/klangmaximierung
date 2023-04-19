@@ -1,0 +1,829 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Asap:wght@500&display=swap');
+
+/** -- Start: "Icons"-Components -- **/
+.not-in-title-svg {
+  height: 3vh;
+  vertical-align: text-bottom;
+  /* Wichtig: Macht, dass das SVG auch immer schön auf gleicher Höhe mit dem Text ist. */
+}
+
+.in-title-svg {
+  height: 3vh;
+  vertical-align: baseline;
+  /* Wichtig: Macht, dass das SVG auch immer schön auf gleicher Höhe mit dem Text ist. */
+}
+
+/** -- End: "Icons"-Components -- **/
+
+/** -- Start: "Allgemeine Introduction"-Component -- **/
+.botschaft {
+  border-color: #FFF;
+  border-style: solid;
+  border-left: thick;
+  border-right: thick;
+  padding: 20px 10px;
+  margin: 5%;
+  color: #FFF;
+  line-height: 1.5;
+}
+
+@media only screen and (max-width: 479px) {
+  .botschaft p {
+    font-size: 1.25em;
+    text-align: center;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 989px) {
+  .botschaft p {
+    font-size: 1.5em;
+    text-align: center;
+  }
+}
+
+@media only screen and (min-width: 990px) {
+  .botschaft p {
+    font-size: 1.75em;
+    text-align: center;
+  }
+}
+
+/** -- End: "Allgemeine Introduction"-Component -- **/
+
+/** -- Start: "Erfahre mehr"-Component -- **/
+
+.mehr-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*sehr wichtig: wenn man flex-dicetion: column macht, dann muss man die Elemente über flex-direction zentrieren und nicht über justify-content!!*/
+}
+
+.accordion-utopia {
+  color: red;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 8px;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 15px;
+  transition: all 0.3s;
+  margin: 2%;
+  /*Um Button ein wenig weiter runter zu bringen.*/
+  display: flex;
+}
+
+/*--Arrows go up & down when clicking --*/
+
+.accordion-utopia.active .arrow-up {
+  display: inline;
+}
+
+.accordion-utopia .arrow-up {
+  display: none;
+}
+
+.accordion-utopia .arrow-down {
+  display: inline;
+}
+
+.accordion-utopia.active .arrow-down {
+  display: none;
+}
+
+.arrow-up,
+.arrow-down {
+  width: 10px;
+  height: 10px;
+  margin-left: 15px !important;
+}
+
+.mehr-button {
+  padding: 16px 25px;
+  border-radius: 50px;
+  background-color: white;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.mehr-button:hover {
+  color: red;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, .2)
+}
+
+.mehr-button:visited,
+.mehr-button:link {
+  color: red;
+  text-decoration: none;
+}
+
+.hidden-container {
+  max-height: 0;
+  overflow: hidden;
+  /*Sagt ob der Inhalt innerhalb einer Box abgeschnitten oder mit einer Scrollbox angezeigt werden 				                        soll, wenn nicht der ganze Text in eine Box passt.*/
+  transition: max-height 0.8s ease-in-out;
+  color: #000;
+  line-height: 1.5;
+  margin-top: 5%;
+  /*Damit die Details nicht direkt auf Knopf erscheinen.*/
+}
+
+.main-container {
+  position: relative;
+}
+
+.main-container .flex-wrap:nth-child(odd) {
+  display: flex;
+  flex-direction: row;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+}
+
+.main-container .flex-wrap:nth-child(even) {
+  display: flex;
+  flex-direction: row-reverse;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+}
+
+.main-container .plain-text p
+
+/*braucht man, sonst überschreibt <p>-CSS regel 'center' den text-align left...*/
+  {
+  text-align: left;
+}
+
+.article-container {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+}
+
+.article-container:before {
+  display: table;
+  content: " ";
+}
+
+.image-flex {
+  background-size: cover;
+  background-position: center;
+  min-height: 400px;
+  position: relative;
+  height: auto;
+  /* vorherige Einstellung: height: 100% --> dies hatte jedoch den Nachteil, dass - wenn meine Texte zu lang wurden - das Foto abgeschnitten wurde!*/
+  width: 50%;
+  display: flex;
+}
+
+.image-flex:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.wrap-content {
+  display: flex;
+  background-color: #fff;
+  color: #1e2423;
+  width: 50%;
+}
+
+.wrap-content:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.drin,
+.preisliste-drin {
+  display: flex;
+  align-items: center;
+  min-height: 100%;
+  width: 100%;
+  padding: 5% 17%;
+}
+
+.drin-preisliste {
+  justify-content: space-around;
+}
+
+.drin-content {
+  padding-right: 10px;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.title-article {
+  font-size: 30px;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.sub-title {
+  font-size: 16px;
+  color: #F30;
+  margin: 0;
+}
+
+.plain-text {
+  margin-top: 40px;
+  line-height: 25px;
+}
+
+.plain-text a
+
+/*Links auf Preisliste bleiben schwarz.*/
+  {
+  color: #000;
+  text-decoration: none;
+}
+
+.news a
+
+/*Links auf News-Seite werden blau*/
+  {
+  color: blue;
+  text-decoration: none;
+}
+
+.speaker a {
+  color: blue;
+  text-decoration: none;
+}
+
+.speaker:visited {
+  text-decoration: none;
+}
+
+.main-container .plain-text p
+
+/*braucht man, sonst überschreibt <p>-CSS regel 'center' den text-align left...*/
+  {
+  text-align: left;
+}
+
+@media only screen and (max-width: 479px) {
+  .main-container .flex-wrap {
+    flex-wrap: wrap;
+  }
+
+  .article-container {
+    max-width: 540px;
+    margin: auto;
+  }
+
+  .image-flex {
+    width: 100%;
+  }
+
+  .wrap-content {
+    width: 100%;
+    align-self: flex-start;
+  }
+
+  .drin {
+    padding: 10% 15%;
+  }
+
+  .preisliste-drin
+
+  /*muss separat aufgeführt werden, sonst wird die Tabelle nicht schön gerendert auf Phones & Tablets*/
+    {
+    padding: 10% 5%;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 989px) {
+  .main-container .flex-wrap {
+    flex-wrap: wrap;
+  }
+
+  .image-flex {
+    width: 100%;
+  }
+
+  .wrap-content {
+    width: 100%;
+    align-self: flex-start;
+  }
+
+  .drin {
+    padding: 10% 15%;
+  }
+
+  .preisliste-drin
+
+  /*muss separat aufgeführt werden, sonst wird die Tabelle nicht schön gerendert auf Phones & Tablets*/
+    {
+    padding: 10% 5%;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .article-container {
+    max-width: 760px;
+    margin: auto;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 989px) {
+  .article-container {
+    max-width: 980px;
+    margin: auto;
+  }
+}
+
+@media only screen and (min-width: 990px) and (max-width: 1240px) {
+
+  .drin,
+  .preisliste-drin {
+    /*Breite & Länge innerhalb der Schreib-Box*/
+    padding: 5% 10%;
+  }
+
+  .plain-text {
+    line-height: 20px;
+  }
+
+  .plain-text p {
+    font-size: 0.8em;
+  }
+
+  .main-container .plain-text ul {
+    font-size: 0.78em;
+    line-height: 1.5;
+  }
+
+  .main-container .plain-text ul ul {
+    font-size: inherit;
+  }
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 1073px) {
+
+  .drin,
+  .preisliste-drin {
+    /*Breite & Länge innerhalb der Schreib-Box*/
+    padding: 5% 10%;
+  }
+
+  .plain-text {
+    line-height: 20px;
+  }
+
+  .plain-text p {
+    font-size: 0.85em;
+  }
+
+  .main-container .plain-text ul {
+    font-size: 0.85em;
+    line-height: 1.5;
+  }
+
+  .main-container .plain-text ul ul {
+    font-size: inherit;
+  }
+}
+
+@media only screen and (min-width: 1074px) and (max-width: 1139px) {
+  .drin {
+    /*Breite & Länge innerhalb der Schreib-Box*/
+    padding: 5% 10%;
+  }
+
+  .plain-text {
+    line-height: 20px;
+  }
+
+  .plain-text p {
+    font-size: 0.9em;
+  }
+
+  .main-container .plain-text ul {
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+
+  .main-container .plain-text ul ul {
+    font-size: inherit;
+  }
+}
+
+@media only screen and (min-width: 1140px) and (max-width: 1200px) {
+
+  .drin,
+  .preisliste-drin {
+    /*Breite & Länge innerhalb der Schreib-Box*/
+    padding: 5% 11.5%;
+  }
+
+  .plain-text {
+    line-height: 25px;
+  }
+
+  .plain-text p {
+    font-size: 0.9em;
+  }
+
+  .main-container .plain-text ul {
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+
+  .main-container .plain-text ul ul {
+    font-size: inherit;
+  }
+}
+
+@media only screen and (min-width: 1201px) and (max-width: 1270px) {
+
+  .drin,
+  .preisliste-drin {
+    /*Breite & Länge innerhalb der Schreib-Box*/
+    padding: 5% 12%;
+  }
+
+  .plain-text {
+    line-height: 25px;
+  }
+
+  .plain-text p {
+    font-size: 0.95em;
+  }
+
+  .main-container .plain-text ul {
+    font-size: 0.95em;
+    line-height: 1.5;
+  }
+
+  .main-container .plain-text ul ul {
+    font-size: inherit;
+  }
+}
+
+@media only screen and (min-width: 1240px) and (max-width: 1345px) {
+  .drin {
+    /*Breite & Länge innerhalb der Schreib-Box*/
+    padding: 5% 12.5%;
+  }
+
+  .plain-text {
+    line-height: 25px;
+  }
+
+  .plain-text p {
+    font-size: 1em;
+  }
+
+  .main-container .plain-text ul {
+    font-size: 1em;
+    line-height: 1.5;
+  }
+
+  .main-container .plain-text ul ul {
+    font-size: inherit;
+  }
+}
+
+/** -- End: "Erfahre mehr"-Component -- **/
+
+/** -- Start: "Carousel"-Component -- **/
+/* -- Start: "Carousel-Swiper"-Section -- */
+.carousel-container {
+  /* margin: auto; */
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-slide {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.img-carousel-wrapper {
+  min-width: 100%;
+  min-height: 100%;
+  position: relative;
+}
+
+.carousel-slide img {
+  object-fit: cover;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  min-height: 100%;
+  height: 100%;
+}
+
+.carousel-container svg {
+  width: 60px;
+  height: 60px;
+}
+
+.prevBtn,
+.nextBtn {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.prevBtn {
+  left: 5%;
+}
+
+.nextBtn {
+  right: 5%;
+}
+
+.carousel-bemerkungen {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  padding: 30px;
+  color: rgb(255, 253, 253);
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  /* display: block; */
+  width: 100%;
+  text-align: center;
+}
+
+@media screen and (max-width: 767px) {
+  .carousel-container svg {
+    width: 12vw;
+    height: 12vw;
+  }
+}
+
+/** -- End: "Carousel"-Component -- **/
+
+/** -- Start: "Tab"-Component **/
+.tab {
+  overflow: hidden;
+  /* background-color: #f1f1f1; */
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  color: #428bca;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+.tab button.tab-active {
+  /* background: #f0544f; */
+  color: #555;
+  cursor: default;
+  background-color: rgba(221, 221, 221, 0.565);
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+}
+
+/* Style the tab content */
+.tabcontent {
+  border-top: none;
+}
+
+.tab-show-not {
+  display: none;
+}
+
+/** -- End: "Tab"-Component **/
+
+/** -- Start: "Kontakt"-Component -- **/
+
+.contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.flexbox-behavior {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flexbox-columns {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.py-7 {
+  padding: 7rem 0;
+}
+
+.lead {
+  opacity: 0.8;
+  padding: 1rem 0;
+  font-size: 1.7rem;
+  font-weight: 300;
+  line-height: 1.8;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* contact */
+#contact {
+  background-color: rgb(248, 248, 248);
+}
+
+.contact-title h2,
+.contact-title h1 {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 600;
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+}
+
+.contact-title h2::after,
+.contact-title h1::after {
+  position: absolute;
+  content: "";
+  top: 120%;
+  left: 0;
+  width: 70px;
+  height: 4px;
+  background-color: #332e29;
+  ;
+}
+
+.contact-content {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.contact-left {
+  margin-bottom: 5rem;
+}
+
+.contact-left .lead {
+  padding: 0.5rem;
+}
+
+
+/* Media Queries */
+
+@media(min-width: 576px) {
+
+  .contact-title h2,
+  .contact-title h1 {
+    font-size: 4rem;
+  }
+}
+
+@media(min-width: 768px) {
+  .contact-content {
+    flex-direction: row;
+  }
+
+  .contact-right {
+    align-self: center;
+    width: 50%;
+  }
+
+  .contact-left {
+    width: 50%;
+  }
+}
+
+/** -- End: "Kontakt"-Component -- **/
+
+/** -- Start: "Footer"-Component -- **/
+@media only screen and (max-width: 479px) {
+  .last-container {
+    flex-wrap: wrap;
+  }
+
+  .link-item {
+    margin-top: 20px;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 989px) {
+  .footer {
+    justify-content: center;
+  }
+
+  .last-container {
+    flex-wrap: wrap;
+  }
+
+  .pimg1,
+  .pimg2 {
+    background-attachment: scroll;
+  }
+}
+
+.footer {
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
+  background-color: #033;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.adresseWrap {
+  max-width: 500px;
+  width: 100%;
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.adresseUn {
+  background: #F9F9F9;
+  padding: 12px 10px;
+}
+
+.adresseUn h2 {
+  text-transform: uppercase;
+  text-align: left;
+  margin: 10px;
+}
+
+.adresseUn p {
+  text-align: left;
+  margin: 10px;
+  line-height: 1.5;
+}
+
+.adresseUn a:visited,
+.adresseUn a:link,
+.adresseUn a:hover {
+  color: blue;
+  text-decoration: none;
+}
+
+.maps-container {
+  /*Iframes in Footer & Videso embedding */
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 56.25%;
+  /*aspect-ratio of 16:9*/
+}
+
+#maps
+
+/*da ich Google-Maps in Flex-Box integriert habe, funktioniert responsive-design bei der Google-Karte nicht!*/
+  {
+  /* margin-top: 7%; */
+  overflow: hidden;
+}
+
+.maps-margin {
+  margin-top: 7%;
+}
+
+.last-container {
+  width: 100%;
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.copy-item {
+  color: white;
+}
+
+.link-item {
+  display: flex;
+  width: 100%;
+  max-width: 300px;
+  justify-content: space-evenly;
+}
+
+.link-item a:visited,
+.link-item a:link,
+.link-item a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.link-item a:hover,
+.adresseUn a:hover {
+  text-decoration: underline;
+}
+
+/** -- End: "Footer"-Component -- **/
