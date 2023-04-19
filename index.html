@@ -1,30 +1,1132 @@
+<!-- 
+    TODOs
+    - Sende Github-Page an Tee zum Durchlesen. -> DONE
+        - Letztes Kapitel mit Tee nochmals anschauen: das habe ich nicht wirklich korrigiert. -> DONE
+    - <meta> Anpassen an "Klangmaximierung" -> DONE (-> ChatGPT?)
+    - Alle Bilder verkleinern (die meisten sind noch viel zu gross) -> DONE
+    - Neues Hero-Image finden -> DONE
+    - Bug: Kommentare unter Carousel sind verschoben xD I need to fix this! -> DONE
+    - Report von Google-Lighthouse: IDs are duplicates. -> NOT solvable yet...
+    - Heights & Widths bei jedem Bild? -> DONE
+-->
 <!DOCTYPE html>
 <html lang="de">
 
 <head>
 
-    <title>Create Tabs</title>
+    <title>Klangmaximierung für Lautsprecher &amp; Hifi-Geräte | Audiophil-Dreams</title>
     <meta charset="UTF-8">
+    <meta name="robots" content="index, follow" />
     <meta name="description"
-        content="Das Versprechen von High-End Audio wird mit Klangoptimierung endlich eingelöst: ein beliebiger Hörraum, ein Hifi System, grandioser Klang!" />
+        content="Sie suchen kostengünstige Möglichkeiten, um die Klangqualität Ihrer Lautsprecher oder Hifi-Geräte zu verdoppeln? Die Lösung: Klangmaximierung." />
     <!-- 149 -->
+    <meta name="author" content="Audiophil-Dreams" />
 
-    <link href="./css-stylesheet/stylesheet-audiophil-dreams.css" rel="stylesheet" type="text/css" />
-    <link href="./css-stylesheet/portfolio-style.css" rel="stylesheet" type="text/css" />
-    <!-- Für die Navigation mittels Kategorien ("ich suche einen Lautsprecher / Streamer / Verstärker etc..." ) -->
-    <link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"> <!-- Lazy-Loading des "Dancing-Script" Fonts von Google. -->
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap"></noscript> <!-- Falls user JS deaktiviert hat, wird der Google-Font "Dancing-Script" trotzdem geladen. -->
 
-    <link rel="apple-touch-icon" sizes="180x180" href="./bilder/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./bilder/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./bilder/favicon/favicon-16x16.png">
+    <link rel="canonical" href="https://www.audiophil-dreams.com/klangmaximierung/" />
 
-    <script defer src="./javascript/lazy-load-img.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/bilder/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/bilder/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/bilder/favicon/favicon-16x16.png">
+
+    <script defer src="/javascript/lazy-load-img.js"></script>
     <!-- JS for "Lazy-Loading" the <img>-Elements (it is important to note that I use 'defer', which will only trigger this script AFTER the whole <html>-Element - which is simply the whole content of the page - has been loaded...) -->
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="./styles/tab.css">
+    <link rel="stylesheet" href="/klangmaximierung/styles/index.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            /* outline: auto; Für das De-Bugging von CSS: kommentiere diese Zeile aus =) */
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            scroll-behavior: smooth;
+        }
+
+        @media only screen and (min-width: 1800px) {
+            .page {
+                width: 1760px;
+                /*Need this, because otherwise Website is going to expand infinitely. This is smth that you don't
+					want to happen!*/
+                margin: 0 auto;
+            }
+        }
+
+        sup
+
+        /*Setzt Zeilenabstand für hochgestellte Zahlen auf 0*/
+            {
+            font-size: 0.83em;
+            vertical-align: super;
+            line-height: 0;
+        }
+
+        nav {
+            margin: 0;
+            padding: 0;
+            background-color: #282E34;
+            /*----- um die Navigation oben fix zu halten  man muss aber ausserdem in den Mediaquerries dann auch noch position:         static machen bei der Navigation!--------------- */
+            /*position: fixed;
+  z-index: 99999;
+  width: 100%;*/
+        }
+
+        #logo {
+            padding: 0 30px;
+            font-size: 200%;
+            line-height: 60px;
+            color: #FFF;
+            font-family: 'Dancing Script', cursive;
+            float: right;
+        }
+
+        [id^=drop]
+
+        /* Selektiert jede ID, welche mit "drop" beginnt  alle Checkboxen bei der Navigation werden nicht angezeigt. Auch nicht bei Iphone & Ipads*/
+            {
+            display: none;
+        }
+
+        nav:after
+
+        /*Inserts something after the navigation*/
+            {
+            content: "";
+            /*Setzt nach der Navigation einen leeren String. Macht, dass Navigation ganze Breite annimmt. Ausserdem                  wird dadurch die Höhe genau auf 0 gesetzt, wie wenn man Margin auf 0 setzen würde.*/
+            display: table;
+            /*Macht, dass Navigation ganze Breite annimmt. Vewandelt alles nach der Navigation (= leerer String)                  als Tabelle*/
+            clear: both;
+            /*No floating elements allowed on either the left or the right side. Macht, dass Navigation ganze Breite                 annimmt.Würde auch mit clear: left funktionieren...*/
+        }
+
+        nav ul,
+        nav ul ul {
+            float: left;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            position: relative;
+            /*Jedes Untermenü geht an die Stelle, zu welchem Übermenü es gehört.*/
+        }
+
+        nav ul li,
+        nav ul ul li,
+        nav ul ul ul li {
+            /* 2x Noob */
+            margin: 0px;
+            display: block;
+            /* vorher: 'display:inline-block' --> hat auch funktioniert, allerdings erhielt ich beim "float: left" eine komische Warnung von VS Code, dass dies nicht mit der "inline-block"-property kombatibel wäre... */
+            float: left;
+            background-color: #282E34;
+        }
+
+        nav a {
+            display: block;
+            padding: 0 12px;
+            /*vorher: 0 20px; dann 0 15px*/
+            color: #FFF;
+            font-size: 17px;
+            /*vorher: 20px; dann 19px*/
+            line-height: 60px;
+            /*Setzt die Grösse um den <a>-Link herum*/
+            text-decoration: none;
+        }
+
+        nav ul ul {
+            display: none;
+            /*Macht, dass beide Sub-Menüs verschwinden*/
+            position: absolute;
+            top: 60px;
+        }
+
+        nav ul ul ul {
+            display: none;
+            /* Macht, dass beide Sub-Menüs verschwinden */
+            position: absolute;
+        }
+
+        nav ul li:hover>ul,
+        nav ul li ul li:hover>ul {
+            display: inherit;
+            /*Inherits the display: inline-block property from its parent element, which is the first <ul>                        <li>. Es ist sehr wichtig li:hover zu schreiben, damit der Browser weiss, dass er das zweite                        Untermenü nur dann sichtbar machen soll, wenn man mit der Maus drüber fährt!*/
+        }
+
+        nav ul ul li {
+            width: 240px;
+            /*Breite der Untermenüs --> Bestes: 220px; ABER: mit "scroll-Pfeil mindestens 240px! */
+            float: none;
+            display: list-item;
+            z-index: 10;
+            /* position: relative; <-- noob: sollte weg! */
+        }
+
+        @media only screen and (min-width: 1240px) {
+            .drop-down {
+                /*
+	max-height: 600px;
+    overflow: auto;
+	*/
+                max-height: 573px;
+                /*Dieser Wert gibt an, wie weit das Drop-Down Menü bei "Produkte" runtergeht.*/
+                /* overflow: auto; Hier sage ich dem Browser, er soll eine Scroll-bar einfügen für das Drop-Down Menü. Allerdings funktioniert dadurch die "Sub-Sub"-Navigation nicht mehr (sie ist dann nicht mehr sichtbar) */
+            }
+        }
+
+        /*-- BEGINN Animation Scrollbar --*/
+
+        .its-going-down-phone {
+            animation: MoveUpDown 1.25s linear infinite;
+            /* gute Einstellungen für Downward pointing Arrow: animation: MoveUpDown 1.25s linear infinite;*/
+            /*Für strich rauf und runter: 3.5s*/
+            float: right;
+            color: red;
+            font-size: 1.5em;
+            display: none;
+            /*keine Anzeige roter Pfeil für ALLE(!) Telefons*/
+            font-weight: bolder;
+        }
+
+        .its-going-down {
+            /* Pfeil angezeigt ab NAD (= PC-Ansicht) */
+            animation: MoveUpDown 1.25s linear infinite;
+            /* gute Einstellungen für Downward pointing Arrow: animation: MoveUpDown 1.25s linear infinite;*/
+            /*Für strich rauf und runter: 3.5s*/
+            float: right;
+            color: red;
+            font-size: 1.5em;
+            font-weight: bolder;
+            display: block;
+            /*Um roten Pfeil unsichtbar zu machen: schreibe hier 'display: none' !!!*/
+        }
+
+        @keyframes MoveUpDown {
+
+            /* Animation für Pfeil als Hinweis für Scrolling*/
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /*** --- Insert the correct Media-Querries: Visibility of downward pointing arrow ---> Pfeil-Anzeige hängt - vor allem - von Telefon-Height ab (siehe Markdown-File dazu) ***/
+        @media only screen and (min-height: 310px) and (max-height: 364px) and (max-width: 1240px) {
+
+            /* Pfeil ab Accuphase */
+            .down-310 {
+                display: inline-block;
+                /* NACHDEM du NAD einfügst --> inline-block statt 'none'*/
+            }
+
+            .its-going-down {
+                display: none;
+            }
+        }
+
+        @media only screen and (min-height: 365px) and (max-height: 414px) and (max-width: 1240px) {
+
+            /* Pfeil ab Atoll */
+            .down-365 {
+                display: inline-block;
+                /* NACHDEM du NAD einfügst --> inline-block statt 'none'*/
+            }
+
+            .its-going-down {
+                display: none;
+            }
+        }
+
+        @media only screen and (min-height: 415px) and (max-height: 474px) and (max-width: 1240px) {
+
+            /* Pfeil ab B&W */
+            .down-415 {
+                display: inline-block;
+                /* NACHDEM du NAD einfügst --> inline-block statt 'none'*/
+            }
+
+            .its-going-down {
+                display: none;
+            }
+        }
+
+        @media only screen and (min-height: 475px) and (max-height: 534px) and (max-width: 1240px) {
+
+            /* Pfeil ab CH Precision */
+            .down-415 {
+                display: inline-block;
+                /* NACHDEM du NAD einfügst --> inline-block statt 'none'*/
+            }
+
+            .its-going-down {
+                display: none;
+            }
+        }
+
+        @media only screen and (min-height: 535px) and (max-height: 589px) and (max-width: 1240px) {
+
+            /* Pfeil ab Davis-Acoustics */
+            .down-475 {
+                display: inline-block;
+                /* NACHDEM du NAD einfügst --> inline-block statt 'none'*/
+            }
+
+            .its-going-down {
+                display: none;
+            }
+        }
+
+        @media only screen and (min-height: 590px) and (max-height: 649px) and (max-width: 1240px) {
+
+            /* Pfeil ab Devialet */
+            .down-535 {
+                display: inline-block;
+                /* NACHDEM du NAD einfügst --> inline-block statt 'none'*/
+            }
+
+            .its-going-down {
+                display: none;
+            }
+        }
+
+        @media only screen and (min-height: 650px) and (max-height: 719px) and (max-width: 1240px) {
+
+            /* Pfeil ab Exxeption */
+            .down-590 {
+                display: inline-block;
+                /* NACHDEM du NAD einfügst --> inline-block statt 'none'*/
+            }
+
+            .its-going-down {
+                display: none;
+            }
+        }
+
+        @media only screen and (min-height: 720px) and (max-height: 779px) and (max-width: 1240px) {
+
+            /* Pfeil ab Focal */
+            .down-650 {
+                display: inline-block;
+                /* NACHDEM du NAD einfügst --> inline-block statt 'none'*/
+            }
+
+            .its-going-down {
+                display: none;
+            }
+        }
+
+        /*-- ENDE Animation Scrollbar --*/
+
+        /* --- Begin "High-Light" Utopia --- */
+        .highlight-nav {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: small;
+            color: #fff;
+            border: 1px solid red;
+            border-radius: 5px;
+            padding: 2px;
+            user-select: none;
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -o-user-select: none;
+            pointer-events: none;
+        }
+
+        .highlight-svg {
+            height: 1.5vh;
+            fill: #faf60b;
+        }
+
+        /*-- ENDE "High-Light" Utopia --*/
+
+        /* nav ul ul ul li {
+  position: relative;
+  top: -60px;
+  left: 220px;
+  text-align: center;
+} */
+
+        /*li > a:after { content: ' +'; 
+} /*Selects all <a> elements where the parent is a <li> element and adds a string +. */
+
+        li>a:only-child:after {
+            content: '';
+        }
+
+        /*Wenn <a>-Tag das only-child ist in einem <li>-Tag, dann wird nur ein leerer                                           String eingefügt. Durch diesen Befehl geht man sicher, dass nur ein +-string                                           steht, wo es ein Sub-Menü gibt. */
+
+        /*Für Bilder*/
+        img {
+            width: 100%;
+            /*Muss man setzen, sonst zoomt das Bild stark heran xD*/
+            height: auto;
+        }
+
+        /** Lazy-Load Animation for <img>-Tag in order to make them visible **/
+        .lazy {
+            /* For Animation of Lazy-Loading */
+            transform: translateX(0);
+            opacity: 0;
+            transition: all 1s;
+            /* 
+	*/
+        }
+
+        .lazy-fade {
+            transform: translateX(0);
+            opacity: 1.0;
+            transition: all 1s;
+        }
+
+        .flex-background-img {
+            object-fit: cover;
+            /* In order to mantain the correct aspect-ratio for the images. */
+        }
+
+        /********/
+
+        /* ----Start: Hero-image allgemein ----
+
+--- Description: This Hero-Image is already designed to be responsive for any screen! Hence, the CSS allows the image 
+to always take the full-width of the screen, independent whether it is a phone or a Computer!
+
+----------*/
+
+        .grande-image {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            /* This is necessary, because we will set all images to position absolute, relative to our container 'slideshow'. */
+            overflow: hidden;
+        }
+
+        .grande-image-item {
+            width: inherit;
+            /* Inherits the width of the parent-element (= 'slideshow')*/
+            height: inherit;
+            position: absolute;
+            /* Makes sure, that each of the images within the slide-show, is sitting on top of each other. */
+        }
+
+        .grande-image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* OMG: This guarantees, that the image will behave like a background image. Usually, "normal" images have 
+                          trouble when it comes to behaving well, when the screen gets smaller! */
+        }
+
+        .centered {
+            background-color: rgba(204, 204, 204, 0.65);
+            padding: 15px;
+            border-radius: 10px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            text-align: center;
+            color: #000;
+        }
+
+        /*---------End: Hero-image allgemein----------*/
+
+        /*------ Index -----*/
+
+        .container {
+            position: relative;
+            color: #000;
+        }
+
+        .centered {
+            background-color: rgba(204, 204, 204, 0.65);
+            padding: 15px;
+            border-radius: 10px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            text-align: center;
+            color: #000;
+        }
+
+        .hero-sub-title {
+            font-weight: bold;
+        }
+
+        /************/
+
+        /* -- Hero-Image Styles -- */
+
+        :root {
+            --transparent-subtitle-color: rgba(255, 255, 255, 0.5);
+            --non-transparent-subtitle-color: #fff;
+        }
+
+        .showcase-wrapper {
+            height: 95vh;
+            /* Full-Screen height. */
+            position: relative;
+            /* This is needed in order to be able to position the 3 Dots that will give a hint to the user at which slide he currently is. */
+            overflow: hidden;
+        }
+
+        .showcase-content {
+            /* Styling Flex-Container. */
+            height: 100%;
+            /* Take full-screen height. */
+            width: 100%;
+            /* Full-screen width. */
+            display: flex;
+            transition: all 0.5s ease;
+        }
+
+        .showcase {
+            /* Styling Flex-Items (& Grid-Container). 
+        --> KEY: The Flex-Items will also - simultaneously - be a Grid-Container!! */
+            min-width: 100%;
+            /* Each Flexbox-Item should have a FIXED 100% width, relative to the viewport (= borwser-fenster)!! */
+            display: grid;
+            /* Default-Behavior: All Grid-Items become 1 column. */
+            place-items: center;
+            /* This will be the vertical & horizontal alignment for our Grid-ITEMS WITHIN each CELL.
+
+    - Key to note 1: Since the 'place-items' can only be applied to a Grid- OR Flexbox-CONTAINER, we can conclude that this property is applied to our GRID-Container (and not to the Flexbox that we used on the 'showcase-content'-div above).
+
+    - Key to note 2: This is a Short-Cut-Writing for the following two Grid OR Flexbox CSS-properties: 
+        - 'justify-items'-property (= horizontal alignment for Flexbox)
+        - 'align-content'-property (= this is the vertical-alignment, since - by Default - we have a flex-direction of 'row' in this case.)
+    */
+            place-content: center;
+            /* We horizontally & vertically alignment for the Flexbox- OR Grid-CONTENT. Dadurch nimmt - vor allem - der Button nicht dies gesamte Breite (= Width) der Grid-Cell an.
+
+    - Key to note 1: Since the 'place-content' can only be applied to a Grid- OR Flexbox-CONTAINER, we can conclude that this property is applied to our GRID-Container (and not to the Flexbox that we used on the 'showcase-content'-div above). 
+        - What it does? --> It will center - horizontally AND vertically - the WHOLE content of each column RELATIVE TO the whole height of the column (= e.g. both items WITHIN each of the 3 columns will be placed into the center of their corresponding grid-container). 
+
+    - Key to note 2: This is a Short-Cut-Writing for the following two Flexbox- OR Grid- CSS-properties: 
+        - 'justify-content'-property (= horizontal alignment WITHIN the flex- / grid-container)
+        - 'align-content'-property (= this is the vertical-alignment WITHIN the flex- / grid-container.)
+    */
+            color: #fff;
+            text-align: center;
+        }
+
+        .showcase h1 {
+            font-size: min(70px, 10vw);
+            width: min(600px, 90vw);
+            margin: 1.5rem auto;
+            /* Bringt mehr Luft zwischen Button & Titel. */
+        }
+
+        .hero-image {
+            object-fit: cover;
+            object-position: center;
+            height: 95vh;
+            display: block;
+        }
+
+        .title-on-img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .subtitle-on-img {
+            /* border: 2.5px solid #fff; */
+            color: rgba(255, 255, 255, 0.9);
+            font-style: italic;
+            font-family: inherit;
+            text-transform: uppercase;
+            padding: 0.8rem 1.4rem;
+            outline: 0;
+            display: inline-block;
+        }
+
+        @media screen and (min-width: 992px) {
+            .subtitle-on-img {
+                font-size: 1.05rem;
+            }
+        }
+
+        .showcase picture {
+            width: 100vw;
+            /* Bug-Fix: otherwise, the hero-image has not the full-width! */
+        }
+
+        .black-gradient picture:after {
+            /* Dadurch wird ein pseudo-element kreiert, welches einen dunkleren Farb-Gradienten über die Hero-Images legt. */
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+            /*rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)*/
+            background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.5) 100%);
+            /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0.5)), color-stop(100%, rgba(0, 0, 0, 0)));
+            /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.5) 100%);
+            /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.5) 100%);
+            /* Opera 11.10+ */
+            background: -ms-linear-gradient(top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.5) 100%);
+            /* IE10+ */
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.5) 100%);
+            /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a6000000', endColorstr='#00000000', GradientType=0);
+            /* IE6-9 */
+        }
+
+        .brighter-black-gradient picture:after {
+            /* Dadurch wird ein pseudo-element kreiert, welches einen dunkleren Farb-Gradienten über die Hero-Images legt. */
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+            /*rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)*/
+            background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+            /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0.1)), color-stop(100%, rgba(0, 0, 0, 0)));
+            /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+            /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+            /* Opera 11.10+ */
+            background: -ms-linear-gradient(top, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+            /* IE10+ */
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+            /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a6000000', endColorstr='#00000000', GradientType=0);
+            /* IE6-9 */
+        }
+
+        @media screen and (max-width: 340px) {
+            .showcase h1 {
+                font-size: min(2rem, 8vh);
+            }
+        }
+
+        .showcase button,
+        .kontakt-knopf {
+            background: transparent;
+            border: 2.5px solid #fff;
+            color: #fff;
+            font-family: inherit;
+            text-transform: uppercase;
+            padding: 0.8rem 1.4rem;
+            outline: 0;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+
+        .kontakt-knopf a:visited {
+            color: #000;
+        }
+
+        .showcase a {
+            text-decoration: none;
+        }
+
+        .kontakt-knopf-link {
+            color: #000;
+            display: block;
+        }
+
+        .showcase button:hover,
+        .kontakt-knopf:hover {
+            background: #acacac;
+            /*for red: #fc5050*/
+            color: #000;
+        }
+
+        /*------------------------------------------------ Phone Styles ----------------------------------------------*/
+        @media only screen and (max-width: 479px) {
+
+            #logo {
+                display: none;
+            }
+
+            #logo-phone {
+                display: block;
+                float: right;
+                font-family: 'Dancing Script', cursive;
+                font-size: 120%;
+            }
+
+            nav {
+                margin: 0;
+                /*----- um die Navigation nicht fixiert zu lassen auf dem Handy ------ position: static;*/
+            }
+
+            .toggle+a,
+            .menu {
+                /*Selects all <a> elements that are placed immediately after toggle class*/
+                display: none;
+            }
+
+            .toggle {
+                display: block;
+                background-color: #282E34;
+                padding: 0 15px;
+                /*vorher: 0 20px*/
+                font-size: 17px;
+                color: #FFF;
+                line-height: 60px;
+                text-decoration: none;
+                border: none;
+            }
+
+            .toggle:hover {
+                background-color: #929292;
+                /*Hover-Effekt hellgrau. Muss man zusätzlich einfügen, sonst gibt es keinen Hover-Effekt                               auf die Toggle Klasse*/
+            }
+
+            nav ul li a:hover {
+                background-color: #929292;
+                /*Hover-Effekt hellgrau*/
+            }
+
+            [id^=drop]:checked+ul {
+                /*Selects all <ul> elements that are placed immediately after some (checked) elements that                          begin with the ID "drop". Dieser Befehl ermöglicht das Click-Event! Nachdem die Elemente aus                          der Liste mit einem Check-Mark angeklickt wurden bzw. checked wurden, wechselt der Display von                          "none" zu "block" und die Elemente werden sichtbar! */
+                display: block;
+            }
+
+            nav ul li {
+                display: block;
+                /*Braucht man nicht. Funktioniert auch ohne*/
+                width: 100%;
+            }
+
+            nav ul ul .toggle,
+            nav ul ul a {
+                padding: 0 40px;
+            }
+
+            nav ul ul ul a {
+                padding: 0 47px;
+                /*Macht, dass der innere Abstand innerhalb der <a>-Boxen grösser werden*/
+            }
+
+            /*------------ Nicht so gut bzw. unnötig*/
+            nav a:hover,
+            nav ul ul ul a {
+                background-color: #282E34;
+            }
+
+            nav ul li ul li .toggle,
+
+            nav ul ul a {
+                background-color: #212121;
+            }
+
+            nav ul ul ul a {
+                background-color: #141414;
+                /* Das Sub-Sub-Menü soll eine andere Farbe erhalten*/
+            }
+
+            /*--------------- */
+
+            nav ul ul,
+            nav ul ul ul {
+                float: none;
+                /*Braucht es, sonst füllt das zweite Submenü nicht mehr die ganze Seite aus */
+                position: static;
+                /*Elements render in order, as they appear in the document flow*/
+                color: #ffffff;
+            }
+
+            nav ul ul li:hover>ul,
+            nav ul li:hover>ul,
+            nav ul li ul li:hover>ul {
+                display: none;
+            }
+
+            nav ul ul li,
+            nav ul ul ul li {
+                display: block;
+                width: 100%;
+            }
+
+            nav ul ul ul li {
+                position: static;
+            }
+
+            .unternehmen {
+                margin-top: 15%;
+            }
+
+            .centeredGrande,
+            .centered {
+                top: 7rem;
+                width: 80%;
+            }
+
+            .hero-title {
+                font-size: 1.75rem;
+                font-weight: bold;
+            }
+
+            .hero-sub-title {
+                font-size: 1rem;
+            }
+        }
+
+        /* * Audiophil-Dreams.com Logo Break-Point on very small screens (otherwise you will have your Menu that will be on 2 lines for the Galaxy-Fold, which is ugly! * */
+        @media only screen and (max-width: 312px) {
+            #logo-phone {
+                display: block;
+                float: right;
+                font-family: 'Dancing Script', cursive;
+                font-size: 100%;
+                /* !  Achtung: muss UNTERHALB von allen "phone-styles" stehen, denn diese haben sonst priority auf diesem Code! */
+            }
+        }
+
+        /*Allgemeine-Medium-Phone-Styles*/
+        @media only screen and (min-width: 480px) and (max-width: 989px) {
+
+            .menu
+
+            /*unique for tablets*/
+                {
+                width: 100%;
+            }
+
+            #logo {
+                display: none;
+            }
+
+            #logo-phone {
+                display: block;
+                float: right;
+                font-family: 'Dancing Script', cursive;
+                font-size: 120%;
+            }
+
+            nav {
+                margin: 0;
+                /*----- um die Navigation nicht fixiert zu lassen auf dem Handy ------ position: static;*/
+            }
+
+            .toggle+a,
+            .menu {
+                /*Selects all <a> elements that are placed immediately after toggle class*/
+                display: none;
+            }
+
+            .toggle {
+                display: block;
+                background-color: #282E34;
+                padding: 0 15px;
+                /*vorher: 0 20px*/
+                font-size: 17px;
+                color: #FFF;
+                line-height: 60px;
+                text-decoration: none;
+                border: none;
+            }
+
+            .toggle:hover {
+                background-color: #929292;
+                /*Hover-Effekt hellgrau. Muss man zusätzlich einfügen, sonst gibt es keinen Hover-Effekt                               auf die Toggle Klasse*/
+            }
+
+            nav ul li a:hover {
+                background-color: #929292;
+                /*Hover-Effekt hellgrau*/
+            }
+
+            [id^=drop]:checked+ul {
+                /*Selects all <ul> elements that are placed immediately after some (checked) elements that                          begin with the ID "drop". Dieser Befehl ermöglicht das Click-Event! Nachdem die Elemente aus                          der Liste mit einem Check-Mark angeklickt wurden bzw. checked wurden, wechselt der Display von                          "none" zu "block" und die Elemente werden sichtbar! */
+                display: block;
+            }
+
+            nav ul li {
+                display: block;
+                /*Braucht man nicht. Funktioniert auch ohne*/
+                width: 100%;
+            }
+
+            nav ul ul .toggle,
+            nav ul ul a {
+                padding: 0 40px;
+            }
+
+            nav ul ul ul a {
+                padding: 0 80px;
+                /*Macht, dass der innere Abstand innerhalb der <a>-Boxen grösser werden*/
+            }
+
+            /*------------ Nicht so gut bzw. unnötig*/
+            nav a:hover,
+            nav ul ul ul a {
+                background-color: #282E34;
+            }
+
+            nav ul li ul li .toggle,
+            nav ul ul a {
+                background-color: #212121;
+            }
+
+            nav ul ul ul a {
+                background-color: #141414;
+                /* Das Sub-Sub-Menü soll eine andere Farbe erhalten */
+            }
+
+            /*--------------- */
+
+            nav ul ul,
+            nav ul ul ul {
+                float: none;
+                /*Braucht es, sonst füllt das zweite Submenü nicht mehr die ganze Seite aus */
+                position: static;
+                /*Elements render in order, as they appear in the document flow*/
+                color: #ffffff;
+            }
+
+            nav ul ul li:hover>ul,
+            nav ul li:hover>ul,
+            nav ul li ul li:hover>ul {
+                display: none;
+            }
+
+            nav ul ul li,
+            nav ul ul ul li {
+                display: block;
+                width: 100%;
+            }
+
+            /* nav ul ul ul li { 
+  position: static;
+} */
+
+            .take-away {
+                padding: 20px 10px;
+            }
+
+            .unternehmen {
+                margin-top: 10%;
+            }
+
+            .centeredGrande,
+            .centered {
+                top: 9rem;
+                width: 85%;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+                font-weight: bold;
+            }
+
+            .hero-sub-title {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Desktop Styles allgemeines Design (für Navi only!) */
+        @media only screen and (min-width: 1039px) {
+            nav ul ul ul {
+                left: 240px;
+                top: 0;
+            }
+
+            .toggle {
+                display: none;
+            }
+
+            #logo {
+                display: block;
+            }
+
+            nav a.thispage {
+                background-color: #929292;
+                /*Damit die Farbe auf aktuellen Seite bleibt.*/
+            }
+
+            nav ul li ul li:hover {
+                background: #CCC;
+                /*Macht, dass wenn man auf ein Untermenü fährt, dass die Hover Farbe sich ändert. Hier ist die                        Farbe grau. Könnte auch background-color schreiben...*/
+            }
+
+            nav a:hover {
+                background-color: #929292;
+            }
+
+            nav ul li:hover {
+                background: #929292;
+                /*Macht, dass wenn man auf ein Untermenü fährt, dass die Hover Farbe sich ändert. Hier wird 			
+							die Farbe leicht hell-grauer. Könnte auch background-color schreiben...*/
+            }
+        }
+
+        @media only screen and (min-width: 1240px) {
+            nav ul ul li {
+                position: relative;
+            }
+        }
+
+        /* Desktop Styles allgemeines Design */
+        @media only screen and (min-width: 990px) {
+
+            /*---- Index ----*/
+
+            .take-away {
+                padding: 20px 10px;
+            }
+
+            .unternehmen {
+                margin-top: 5%;
+            }
+
+            .centeredGrande,
+            .centered {
+                top: 14rem;
+            }
+
+            .hero-title {
+                font-size: 3.5rem;
+                font-weight: bold;
+            }
+
+            .hero-sub-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /*Spezielles für > 1'000px bis 1'346px --> ist notwenidg, sonst gibt es einen Bug und das Bild kommt nicht bis zum Text, siehe z.B. News-Seite, wenn du diesen Code-Abschnitt löschest.*/
+        @media only screen and (min-width: 990px) and (max-width: 1240px) {
+            /*vorher: max-width: 1024px, aber dann kommt das Logo von Audiophil-Dreams auf die untere Seite, wenn ich das Browserfenster verkleinere!*/
+            .menu
+
+            /*unique for tablets*/
+                {
+                width: 100%;
+            }
+
+            #logo {
+                display: none;
+            }
+
+            #logo-phone {
+                display: block;
+                float: right;
+                font-family: 'Dancing Script', cursive;
+                font-size: 120%;
+            }
+
+            nav {
+                margin: 0;
+                /*----- um die Navigation nicht fixiert zu lassen auf dem Handy ------ position: static;*/
+            }
+
+            .toggle+a,
+            .menu {
+                /*Selects all <a> elements that are placed immediately after toggle class*/
+                display: none;
+            }
+
+            .toggle {
+                display: block;
+                background-color: #282E34;
+                padding: 0 15px;
+                /*vorher: 0 20px*/
+                font-size: 17px;
+                color: #FFF;
+                line-height: 60px;
+                text-decoration: none;
+                border: none;
+            }
+
+            .toggle:hover {
+                background-color: #929292;
+                /*Hover-Effekt hellgrau. Muss man zusätzlich einfügen, sonst gibt es keinen Hover-Effekt                               auf die Toggle Klasse*/
+            }
+
+            nav ul li a:hover {
+                background-color: #929292;
+                /*Hover-Effekt hellgrau*/
+            }
+
+            [id^=drop]:checked+ul {
+                /*Selects all <ul> elements that are placed immediately after some (checked) elements that                          begin with the ID "drop". Dieser Befehl ermöglicht das Click-Event! Nachdem die Elemente aus                          der Liste mit einem Check-Mark angeklickt wurden bzw. checked wurden, wechselt der Display von                          "none" zu "block" und die Elemente werden sichtbar! */
+                display: block;
+            }
+
+            nav ul li {
+                display: block;
+                /*Braucht man nicht. Funktioniert auch ohne*/
+                width: 100%;
+            }
+
+            nav ul ul .toggle,
+            nav ul ul a {
+                padding: 0 40px;
+            }
+
+            nav ul ul ul a {
+                padding: 0 80px;
+                /*Macht, dass der innere Abstand innerhalb der <a>-Boxen grösser werden*/
+            }
+
+            /*------------ Nicht so gut bzw. unnötig*/
+            nav a:hover,
+            nav ul ul ul a {
+                background-color: #282E34;
+            }
+
+            nav ul li ul li .toggle,
+            nav ul ul a {
+                background-color: #212121;
+            }
+
+            nav ul ul ul a {
+                background-color: #141414;
+                /* Das Sub-Sub-Menü soll eine andere Farbe erhalten*/
+            }
+
+            /*--------------- */
+
+            nav ul ul,
+            nav ul ul ul {
+                float: none;
+                /*Braucht es, sonst füllt das zweite Submenü nicht mehr die ganze Seite aus */
+                position: static;
+                /*Elements render in order, as they appear in the document flow*/
+                color: #ffffff;
+            }
+
+            nav ul ul li:hover>ul,
+            nav ul li:hover>ul,
+            nav ul li ul li:hover>ul {
+                display: none;
+            }
+
+            nav ul ul li,
+            nav ul ul ul li {
+                display: block;
+                width: 100%;
+            }
+        }
+    </style> <!-- "Crititcal CSS" that is needed to load at the very beginning (nav & hero)... -->
 </head>
 
 <body>
@@ -126,33 +1228,34 @@
             <div class="showcase brighter-black-gradient">
                 <picture>
 
-                    <!-- On a screen <= 768px our image is 100vw... -->
-                    <source media="(max-width: 768px)" sizes="100vw" srcset="./bilder/kurztest/hero/testb-hero-phone-402.jpg 402w,
-              ./bilder/kurztest/hero/testb-hero-phone-552.jpg 522w,
-              ./bilder/kurztest/hero/testb-hero-phone-766.jpg 766w,
-              ./bilder/kurztest/hero/testb-hero-phone-1021.jpg 1021w" />
-
                     <!-- For the Screen-Sizes above 768px-->
-                    <source sizes="100vw" srcset="./bilder/kurztest/hero/testb-hero-375.jpg 375w,
-              ./bilder/kurztest/hero/testb-hero-600.jpg 600w,
-              ./bilder/kurztest/hero/testb-hero-786.jpg 786w,
-              ./bilder/kurztest/hero/testb-hero-1080.jpg 1080w,
-              ./bilder/kurztest/hero/testb-hero-1600.jpg 1600w,
-              ./bilder/kurztest/hero/testb-hero-2000.jpg 2000w" />
+                    <source sizes="100vw" srcset="/bilder/klangmaximierung/hero-klangmaximierung-375.jpg 375w,
+              /bilder/klangmaximierung/hero-klangmaximierung-600.jpg 600w,
+              /bilder/klangmaximierung/hero-klangmaximierung-786.jpg 786w,
+              /bilder/klangmaximierung/hero-klangmaximierung-1080.jpg 1080w,
+              /bilder/klangmaximierung/hero-klangmaximierung-1600.jpg 1600w,
+              /bilder/klangmaximierung/hero-klangmaximierung.jpg 2000w" />
 
-                    <img src="./bilder/kurztest/hero/testb-hero-2000.jpg" width="2000" height="1500"
-                        alt="Bild eines Showrooms mit diversen Hifi-Produkten" class="hero-image" />
+                    <img src="/bilder/klangmaximierung/hero-klangmaximierung.jpg" width="2000" height="1500"
+                        alt="Erhitzte Röhrenverstärker als Symbol für das versteckte, innere Potential von Hifi Komponenten" class="hero-image" />
                 </picture>
                 <div class="title-on-img">
                     <h1 style="font-size: min(60px, 15vw); font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">
                         Klang&shy;maxi&shy;mie&shy;rung</h1>
-                    <p class="subtitle-on-img">Entfesseln Sie das versteckte Klangpotential Ihres Lautsprechers oder Geräts mit kostengünstigen Massnahmen.</p>
+                    <p class="subtitle-on-img">Entfesseln Sie das versteckte Klangpotential Ihres Lautsprechers oder
+                        Geräts mit kostengünstigen Massnahmen.</p>
                 </div>
             </div>
 
         </div>
     </div>
     <!-- end Hero-Image -->
+
+    <div class="botschaft">
+        <p>Sie suchen nach einer Möglichkeit, die Klangqualität Ihrer bestehenden Lautsprecher oder Hifi-Geräte um das <span style="width: 65vw; margin: 0 auto; background-image: linear-gradient(to right,var(--tw-gradient-stops));
+            --tw-gradient-from: #f91616; --tw-gradient-to: rgb(249 115 22 / 0); --tw-gradient-stops: #f91616, var(--tw-gradient-to);
+            --tw-gradient-to: #ecc948; background-clip: text; color: #0000; -webkit-background-clip: text; line-height: 1.5;">Zwei- bis Dreifache</span> zu erhöhen, ohne viel Geld auszugeben? Die Lösung heisst Klangmaximierung.</p>
+    </div>
 
     <!-- portfolio section -->
     <!-- <section id = "portfolio" class = "vh-100 py-7" style="background-color: #fff;">
@@ -164,8 +1267,8 @@
 
                 <div class = "portfolio-grid grid">
                     <div class="img-portfolio-container">
-                      <a href="#was-ist-klangoptimierung">
-                        <img data-lazy = "./bilder/klangoptimierung/alle-themen-klangoptimierung.jpg" class="lazy" width="1500" height="1000" alt="Die 4 Kapitel, auf welchem die Klangoptimierung basiert.">
+                      <a href="#was-ist-klangmaximierung">
+                        <img data-lazy = "/bilder/klangoptimierung/alle-themen-klangoptimierung.jpg" class="lazy" width="1500" height="1000" alt="Die 4 Kapitel, auf welchem die Klangoptimierung basiert.">
                         <div class="portfolio-image-text">
                           <h3 class="flex-child-portfolio">Klangoptimierung? Was ist das?!</h3>
                           <p class="fake-button flex-child-portfolio">Erfahren Sie mehr</p>
@@ -174,7 +1277,7 @@
                     </div>
                     <div class="img-portfolio-container">
                       <a href="/klangoptimierung/lautsprecher-verbessern/">
-                        <img data-lazy = "./bilder/klangoptimierung/lautsprecher-verbessern/hero-lautsprecher-verbessern-1500.jpg" class="lazy" width="2000" height="1125" alt="Scala Utopia, die verbessert wurde.">
+                        <img data-lazy = "/bilder/klangoptimierung/lautsprecher-verbessern/hero-lautsprecher-verbessern-1500.jpg" class="lazy" width="2000" height="1125" alt="Scala Utopia, die verbessert wurde.">
                         <div class="portfolio-image-text">
                           <h3 class="flex-child-portfolio">Bestehender Lautsprecher verbessern.</h3>
                           <p class="fake-button flex-child-portfolio">Klick für mehr Infos</p>
@@ -183,7 +1286,7 @@
                     </div>
                     <div class="img-portfolio-container">
                       <a href="/klangoptimierung/hifi-elektronik-verbessern/">
-                        <img data-lazy = "./bilder/klangoptimierung/elektronik-verbessern/geraet-verbessern-1.jpg" class="lazy" width="4109" height="2233" alt="Diverse Hifi Elektroniken, die verbessert wurden.">
+                        <img data-lazy = "/bilder/klangoptimierung/elektronik-verbessern/geraet-verbessern-1.jpg" class="lazy" width="4109" height="2233" alt="Diverse Hifi Elektroniken, die verbessert wurden.">
                         <div class="portfolio-image-text">
                           <h3 class="flex-child-portfolio">Bestehendes Gerät verbessern.</h3>
                           <p class="fake-button flex-child-portfolio">Klick für mehr Infos</p>
@@ -192,7 +1295,7 @@
                     </div>
                     <div class="img-portfolio-container">
                       <a href="/klangoptimierung/raumakustik-verbessern/">
-                        <img data-lazy = "./bilder/portfolio/port-4.jpg" class="lazy" width="1200" height="900" alt="Focal Viva Utopia in Wohnung.">
+                        <img data-lazy = "/bilder/portfolio/port-4.jpg" class="lazy" width="1200" height="900" alt="Focal Viva Utopia in Wohnung.">
                         <div class="portfolio-image-text">
                           <h3 class="flex-child-portfolio">Raumakustik verbessern.</h3>
                           <p class="fake-button flex-child-portfolio">Klick für mehr Infos</p>
@@ -205,45 +1308,62 @@
       </section> -->
     <!-- end of portfolio section -->
 
-    <div class="main-container" id="was-ist-klangoptimierung">
+    <div class="main-container" id="was-ist-klangmaximierung">
         <article class="article-container">
             <!--before pseudo article-container-->
             <div class="flex-wrap">
-                <div class="image-flex"> 
+                <div class="image-flex">
                     <!-- Start: "Carousel" -->
                     <div class="carousel-container carousel1">
                         <div>
                             <!-- Left Arrow -->
-                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="prevBtn" style="transform: rotate(180deg); background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;" fill="#ffffff">
-                                <path d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z"/>
+                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet"
+                                xmlns="http://www.w3.org/2000/svg" class="prevBtn"
+                                style="transform: rotate(180deg); background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;"
+                                fill="#ffffff">
+                                <path
+                                    d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z" />
                             </svg>
                         </div>
                         <div>
                             <!-- Right Arrow -->
-                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="nextBtn" style="background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;">
-                                <path fill="#ffffff" d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z"/>
+                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet"
+                                xmlns="http://www.w3.org/2000/svg" class="nextBtn"
+                                style="background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;">
+                                <path fill="#ffffff"
+                                    d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z" />
                             </svg>
                         </div>
                         <div class="carousel-slide">
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/B3-og.jpg" alt="Klon des letzten Bildes" id="lastClone">
-                                <span class="carousel-bemerkungen">Auch ein Accuphase profitiert klanglich enorm von der kleinen OptimizeAudio Kur für CHF 680.</span>
+                                <img data-src="/bilder/klangmaximierung/B3-og-1000-opt.jpg" alt="Klon des letzten Bildes, Carousel 1"
+                                    id="lastClone" width="1000" height="1000">
+                                <span class="carousel-bemerkungen">Vollverstärker Atoll IN 100 mit
+                                    Optimierungs-Massnahmen von CHF 32 bis CHF 830.</span>
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/B1-og.jpg" alt="Optimierung des Accuphase E-380: Teil 1">
-                                <span class="carousel-bemerkungen">Vollverstärker Atoll IN 100 mit Optimierungs-Massnahmen von CHF 32 bis CHF 830.</span>
+                                <img data-src="/bilder/klangmaximierung/B1-og-1000-opt.jpg"
+                                    alt="Klangmaximierung eines Atoll Eletctronique Geräts" width="1000" height="1000">
+                                <span class="carousel-bemerkungen">Optimierung des Streamers Bluesound Node für CHF
+                                    300.</span>
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/B2-og.jpg" alt="Optimierung des Accuphase E-380: Teil 2">
-                                <span class="carousel-bemerkungen">Optimierung des Streamers Bluesound Node für CHF 300.</span>
+                                <img data-src="/bilder/klangmaximierung/B2-og-1000-opt.jpg"
+                                    alt="Klangmaximierung des Bluesound Nodes" width="1000" height="1000">
+                                <span class="carousel-bemerkungen">Auch ein Accuphase profitiert klanglich enorm von der
+                                    kleinen OptimizeAudio Kur für CHF 680.</span>
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/B3-og.jpg" alt="Optimierung des Accuphase E-380: Teil 3">
-                                <span class="carousel-bemerkungen">Auch ein Accuphase profitiert klanglich enorm von einer kleinen Klangmaximierung für CHF 680.</span>
+                                <img data-src="/bilder/klangmaximierung/B3-og-1000-opt.jpg"
+                                    alt="Klangmaximierung des Accuphase E-380" width="1000" height="1000">
+                                <span class="carousel-bemerkungen">Auch ein Accuphase profitiert klanglich enorm von
+                                    einer kleinen Klangmaximierung für CHF 680.</span>
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/B1-og.jpg" alt="Klon des ersten Bildes" id="firstClone">
-                                <span class="carousel-bemerkungen">Vollverstärker Atoll IN 100 Optimierung von CHF 32 bis CHF 830.</span>
+                                <img data-src="/bilder/klangmaximierung/B1-og-1000-opt.jpg" alt="Klon des letzten Bildes, Carousel 1"
+                                    id="firstClone" width="1000" height="1000">
+                                <span class="carousel-bemerkungen">Vollverstärker Atoll IN 100 Optimierung von CHF 32
+                                    bis CHF 830.</span>
                             </div>
                         </div>
                     </div>
@@ -259,16 +1379,20 @@
                                 <p>
                                     Unter Klangmaximierung werden Massnahmen bezeichnet, welche eine drastische
                                     Erhöhung der Klangqualität von Lautsprecher und / oder Hifi Geräte
-                                    bezweckt. Um dieses Ziel zu erreichen, verwenden wir Schwingungs- & Antismog-Zubehör.
+                                    bezweckt. Um dieses Ziel zu erreichen, verwenden wir Schwingungs- &
+                                    Antismog-Zubehör.
                                 </p>
 
                                 <p>
                                     Bei der Klangmaximierung wird angenommen, dass das maximale Klangpotential
                                     eines ursprünglichen Lautsprechers oder Hifi Geräts noch nicht erreicht
-                                    wurde. Ausgehend von den <a href="https://www.optimizeaudio.com/klangoptimierung.html" target="_blank" rel="noreferrer">Erkenntnissen der Klangoptimierung</a>, gehen wir dabei
+                                    wurde. Ausgehend von den <a
+                                        href="https://www.optimizeaudio.com/klangoptimierung.html" target="_blank"
+                                        rel="noreferrer">Erkenntnissen der Klangoptimierung</a>, gehen wir dabei
                                     von der Annahme aus, dass Hersteller bei der Konstruktion von High-End
                                     Komponenten - seien es Lautsprecher oder Geräte - den negativen Einfluss von
-                                    Elektrosmog, sowie schädliches Vibrationsverhalten bei der Musikwiedergabe stark unterschätzen. Diese Grundgedanken spielten bei der
+                                    Elektrosmog, sowie schädliches Vibrationsverhalten bei der Musikwiedergabe stark
+                                    unterschätzen. Diese Grundgedanken spielten bei der
                                     Entwicklung der Produkte zur Klangmaximierung eine entscheidende Rolle.
                                 </p>
 
@@ -291,31 +1415,42 @@
                     <div class="carousel-container carousel2">
                         <div>
                             <!-- Left Arrow -->
-                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="prevBtn" style="transform: rotate(180deg); background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;" fill="#ffffff">
-                                <path d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z"/>
+                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet"
+                                xmlns="http://www.w3.org/2000/svg" class="prevBtn"
+                                style="transform: rotate(180deg); background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;"
+                                fill="#ffffff">
+                                <path
+                                    d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z" />
                             </svg>
                         </div>
                         <div>
                             <!-- Right Arrow -->
-                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="nextBtn" style="background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;">
-                                <path fill="#ffffff" d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z"/>
+                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet"
+                                xmlns="http://www.w3.org/2000/svg" class="nextBtn"
+                                style="background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;">
+                                <path fill="#ffffff"
+                                    d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z" />
                             </svg>
                         </div>
                         <div class="carousel-slide">
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/C3-og.jpg" alt="Klon des letzten Bildes" id="lastClone">
+                                <img data-src="/bilder/klangmaximierung/C3-og-1000-opt.jpg" alt="Klon des letzten Bildes: Carousel 2" width="1000" height="1000" id="lastClone">
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/C1-og.jpg" alt="Optimierung des Accuphase E-380: Teil 1">
+                                <img data-src="/bilder/klangmaximierung/C1-og-1000-opt.jpg"
+                                    alt="Nahaufnahme eines Antiresonators an Lautsprecher, um eine Klangmaximierung durchzuführen" width="1000" height="1000">
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/C2-og.jpg" alt="Optimierung des Accuphase E-380: Teil 2">
+                                <img data-src="/bilder/klangmaximierung/C2-og-1000-opt.jpg"
+                                    alt="Eine komplette Ansammlung an Antiresonatoren für Lautsprecher" width="1000" height="1000">
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/C3-og.jpg" alt="Optimierung des Accuphase E-380: Teil 3">
+                                <img data-src="/bilder/klangmaximierung/C3-og-1000-opt.jpg"
+                                    alt="Zwei Antiresonatoren an einem Focal Utopia Lautsprecher" width="1000" height="1000">
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/C1-og.jpg" alt="Klon des ersten Bildes" id="firstClone">
+                                <img data-src="/bilder/klangmaximierung/C1-og-1000-opt.jpg" alt="Klon des ersten Bildes: Carousel 2"
+                                    id="firstClone" width="1000" height="1000">
                             </div>
                         </div>
                     </div>
@@ -329,7 +1464,9 @@
                             <div class="plain-text news">
 
                                 <p>
-                                    Hier zwei Anekdoten, bei denen wir erste praktische Tests durchführten, um zu überprüfen, ob schädlichen Vibrationen &amp; Elektrosmog bei der Musikwiedergabe tatsächlich einen negativen Einfluss auf Lautsprecher und Geräte ausüben:
+                                    Hier zwei Anekdoten, bei denen wir erste praktische Tests durchführten, um zu
+                                    überprüfen, ob schädlichen Vibrationen &amp; Elektrosmog bei der Musikwiedergabe
+                                    tatsächlich einen negativen Einfluss auf Lautsprecher und Geräte ausüben:
                                 </p>
 
                                 <ul>
@@ -382,9 +1519,9 @@
             <div class="flex-wrap">
                 <div class="image-flex"> <!-- style="background-image:
                   url(bilder/klangoptimierung/klang.jpg)" -->
-                    <img data-lazy="./bilder/klangmaximierung/vergleich-klangmaximierung-vs-klangoptimierung.jpg"
+                    <img data-lazy="/bilder/klangmaximierung/vergleich-klangmaximierung-vs-klangoptimierung.jpg"
                         alt="Bild mit Illustration: ein einzelnes Hifi Kabel VS. ein Zusammenspiel aus mehrerem Hifi Zubehör (= Klangoptimierung)."
-                        class="flex-background-img lazy">
+                        class="flex-background-img lazy" width="1000" height="1000">
                 </div>
                 <!--after pseudo image-flex-->
                 <div class="wrap-content">
@@ -436,9 +1573,9 @@
 
             <div class="flex-wrap">
                 <div class="image-flex">
-                    <img data-lazy="./bilder/klangmaximierung/vorteil.jpg"
-                        alt="Dekoratives Bild mit einigen Ruderern, um die Synergie-Effekte zu illustrieren, bei der die Klangoptimierung den höchsten Wert legt."
-                        class="flex-background-img lazy">
+                    <img data-lazy="/bilder/klangmaximierung/vorteil.jpg"
+                        alt="Dekoratives Bild mit Mann, der - liegend - aus einem alten Radio-Gerät Musik geniesst."
+                        class="flex-background-img lazy" width="1000" height="1000">
                 </div>
                 <!--after pseudo image-flex-->
                 <div class="wrap-content">
@@ -475,40 +1612,52 @@
             <!--end flex-wrap div-->
 
             <div class="flex-wrap">
-                <div class="image-flex"> 
+                <div class="image-flex">
                     <!-- Start: "Carousel" -->
                     <div class="carousel-container carousel3">
                         <div>
                             <!-- Left Arrow -->
-                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="prevBtn" style="transform: rotate(180deg); background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;" fill="#ffffff">
-                                <path d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z"/>
+                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet"
+                                xmlns="http://www.w3.org/2000/svg" class="prevBtn"
+                                style="transform: rotate(180deg); background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;"
+                                fill="#ffffff">
+                                <path
+                                    d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z" />
                             </svg>
                         </div>
                         <div>
                             <!-- Right Arrow -->
-                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="nextBtn" style="background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;">
-                                <path fill="#ffffff" d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z"/>
+                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet"
+                                xmlns="http://www.w3.org/2000/svg" class="nextBtn"
+                                style="background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;">
+                                <path fill="#ffffff"
+                                    d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z" />
                             </svg>
                         </div>
                         <div class="carousel-slide">
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/D2-og.jpg" alt="Klon des letzten Bildes" id="lastClone">
+                                <img data-src="/bilder/klangmaximierung/D2-og-1000-opt.jpg" alt="Klon des letzten Bildes: Carousel 3"
+                                    id="lastClone" width="1000" height="1000" width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 3</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/D3-og.jpg" alt="Optimierung des Accuphase E-380: Teil 3">
+                                <img data-src="/bilder/klangmaximierung/D3-og-1000-opt.jpg"
+                                    alt="Illustration der Positionierung der Antiresonatoren für die Klangmaximierung der Exxeption-Audio Modell 25." width="1000" height="1000" width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 3</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/D1-og.jpg" alt="Optimierung des Accuphase E-380: Teil 1">
+                                <img data-src="/bilder/klangmaximierung/D1-og-1000-opt.jpg"
+                                    alt="Klangmaximierung eines Accuphase via der Platzierung von Antismog-Kleber auf der Hinterseite des Gerätes." width="1000" height="1000" width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 1</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/D2-og.jpg" alt="Optimierung des Accuphase E-380: Teil 2">
+                                <img data-src="/bilder/klangmaximierung/D2-og-1000-opt.jpg"
+                                    alt="Klangmaximierung eines Naim Audio Gerätes via Antiresonatoren." width="1000" height="1000" width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 2</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/D3-og.jpg" alt="Klon des ersten Bildes" id="firstClone">
+                                <img data-src="/bilder/klangmaximierung/D3-og-1000-opt.jpg" alt="Klon des ersten Bildes: Carousel 3"
+                                    id="firstClone" width="1000" height="1000" width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 1</span> -->
                             </div>
                         </div>
@@ -531,7 +1680,7 @@
                                 </p>
 
                                 <!-- new Tab -->
-                                 <div id="first-tab-component">
+                                <div id="first-tab-component">
                                     <!-- Tab links -->
                                     <div class="tab">
                                         <button class="tablinks tab-active" id="ziel">Für Lautsprecher</button>
@@ -543,10 +1692,12 @@
                                         <ul>
                                             <li>
                                                 Platzieren Sie 5x Antiresonatoren auf der Ober- oder
-                                                Rückseite Ihres Lautsprechers. Fertig. Nun können Sie selbst beurteilen, wie
-                                                sehr sich der Klang verbessert. 
+                                                Rückseite Ihres Lautsprechers. Fertig. Nun können Sie selbst beurteilen,
+                                                wie
+                                                sehr sich der Klang verbessert.
                                                 <ul>
-                                                    <li><u>Kostenpunkt</u>: <span style="color: red;">CHF 100</span>.</li>
+                                                    <li><u>Kostenpunkt</u>: <span style="color: red;">CHF 100</span>.
+                                                    </li>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -556,10 +1707,13 @@
                                     <div class="tabcontent tab-content-all anekdote tab-show-not">
                                         <ul>
                                             <li>Kleben Sie zunächst einen Antismog-Kleber um diejenigen
-                                                Geräte-Buchsen, die Sie bei der Musikwiedergabe benutzen. Achtung: nur diese
+                                                Geräte-Buchsen, die Sie bei der Musikwiedergabe benutzen. Achtung: nur
+                                                diese
                                                 sollten mit einem Kleber ausgestattet sein! Konkret bedeutet dies:
-                                                Cinch-/XLR-Eingänge/-Ausgänge, aber auch das 230V-Netz, sind hier potentielle
-                                                Kandidaten für die Antismog-Kleber. Fertig. Nun sollten Sie selber feststellen,
+                                                Cinch-/XLR-Eingänge/-Ausgänge, aber auch das 230V-Netz, sind hier
+                                                potentielle
+                                                Kandidaten für die Antismog-Kleber. Fertig. Nun sollten Sie selber
+                                                feststellen,
                                                 wie viel besser Ihr Gerät nun plötzlich "singen" wird!
                                                 <ul>
                                                     <li><u>Kosten</u>: <span style="color: red;">CHF 50</span>.</li>
@@ -572,7 +1726,8 @@
                                                 Transparenz und das Rhythmusgefühl deutlich verbessert werden... 3-5
                                                 Antiresonatoren reichen in der Regel aus und kosten "nur" CHF 60-150.
                                                 <ul>
-                                                    <li><u>Kosten</u>: zwischen <span style="color: red;">CHF 60-150</span>.</li>
+                                                    <li><u>Kosten</u>: zwischen <span style="color: red;">CHF
+                                                            60-150</span>.</li>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -598,35 +1753,47 @@
                     <div class="carousel-container carousel4">
                         <div>
                             <!-- Left Arrow -->
-                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="prevBtn" style="transform: rotate(180deg); background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;" fill="#ffffff">
-                                <path d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z"/>
+                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet"
+                                xmlns="http://www.w3.org/2000/svg" class="prevBtn"
+                                style="transform: rotate(180deg); background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;"
+                                fill="#ffffff">
+                                <path
+                                    d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z" />
                             </svg>
                         </div>
                         <div>
                             <!-- Right Arrow -->
-                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="nextBtn" style="background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;">
-                                <path fill="#ffffff" d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z"/>
+                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet"
+                                xmlns="http://www.w3.org/2000/svg" class="nextBtn"
+                                style="background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;">
+                                <path fill="#ffffff"
+                                    d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z" />
                             </svg>
                         </div>
                         <div class="carousel-slide">
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/E3-og.jpg" alt="Klon des letzten Bildes" id="lastClone">
+                                <img data-src="/bilder/klangmaximierung/E3-og-1000-opt.jpg" alt="Klon des letzten Bildes: Carousel 4"
+                                    id="lastClone" width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 3</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/E1-og.jpg" alt="Optimierung des Accuphase E-380: Teil 1">
+                                <img data-src="/bilder/klangmaximierung/E1-og-1000-opt.jpg"
+                                    alt="Illustration der Positionierung der Antiresonatoren im Inneren eines Atoll Electronique Geräts." width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 1</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/E2-og.jpg" alt="Optimierung des Accuphase E-380: Teil 2">
+                                <img data-src="/bilder/klangmaximierung/E2-og-1000-opt.jpg"
+                                    alt="Interne Klangmaximierung von einem Accuphase." width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 2</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/E3-og.jpg" alt="Optimierung des Accuphase E-380: Teil 3">
+                                <img data-src="/bilder/klangmaximierung/E3-og-1000-opt.jpg"
+                                    alt="Interne Klangmaximierung eines Utopia Lautsprechers." width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 3</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/E1-og.jpg" alt="Klon des ersten Bildes" id="firstClone">
+                                <img data-src="/bilder/klangmaximierung/E1-og-1000-opt.jpg" alt="Klon des ersten Bildes: Carousel 4"
+                                    id="firstClone" width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 1</span> -->
                             </div>
                         </div>
@@ -708,7 +1875,8 @@
                                                 Know-how &amp;
                                                 Erfahrung erfordern. Deshalb werden interne Verbessurungen von Geräten
                                                 ausschliesslich von Dipl.-Ing. Thierry Mayer, dem Schöpfer von
-                                                <a href="https://www.optimizeaudio.com/" target="_blank" rel="noreferrer">OptimizeAudio</a>,
+                                                <a href="https://www.optimizeaudio.com/" target="_blank"
+                                                    rel="noreferrer">OptimizeAudio</a>,
                                                 durchgeführt. Bei Interesse können Sie - via einem persönlichen
                                                 Klangmaximierungs-Nachmittag - ins Show-Room vorbeikommen, um alle
                                                 Schritte mit
@@ -741,51 +1909,62 @@
                     <div class="carousel-container carousel5">
                         <div>
                             <!-- Left Arrow -->
-                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="prevBtn" style="transform: rotate(180deg); background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;" fill="#ffffff">
-                                <path d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z"/>
+                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet"
+                                xmlns="http://www.w3.org/2000/svg" class="prevBtn"
+                                style="transform: rotate(180deg); background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;"
+                                fill="#ffffff">
+                                <path
+                                    d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z" />
                             </svg>
                         </div>
                         <div>
                             <!-- Right Arrow -->
-                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="nextBtn" style="background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;">
-                                <path fill="#ffffff" d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z"/>
+                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet"
+                                xmlns="http://www.w3.org/2000/svg" class="nextBtn"
+                                style="background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;">
+                                <path fill="#ffffff"
+                                    d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z" />
                             </svg>
                         </div>
                         <div class="carousel-slide">
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/F3-og.jpg" alt="Klon des letzten Bildes" id="lastClone">
+                                <img data-src="/bilder/klangmaximierung/F3-og-1000-opt.jpg" alt="Klon des letzten Bildes: Carousel 5"
+                                    id="lastClone" width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 3</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/F1-og.jpg" alt="Optimierung des Accuphase E-380: Teil 1">
+                                <img data-src="/bilder/klangmaximierung/F1-og-1000-opt.jpg"
+                                    alt="Demontage der Treiber einer Maestro Utopia, um eine interne Klangmaximierung durchzuführen." width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 1</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/F2-og.jpg" alt="Optimierung des Accuphase E-380: Teil 2">
+                                <img data-src="/bilder/klangmaximierung/F2-og-1000-opt.jpg"
+                                    alt="Nahaufnahme des demontierten Utopia Basstreibers für eine interne Klangmaximierung." width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 2</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/G1-og.jpg" alt="Optimierung des Accuphase E-380: Teil 2">
+                                <img data-src="/bilder/klangmaximierung/G1-og-1000-opt.jpg"
+                                    alt="Demontage eines Treibers der Grande Utopia EM für eine interne Klangmaximierung." width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 2</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/G2-og.jpg" alt="Optimierung des Accuphase E-380: Teil 2">
+                                <img data-src="/bilder/klangmaximierung/G2-og-1000-opt.jpg"
+                                    alt="Demontierung des Basstreibers der Grande Utopia zur internen Klangmaximierung der Box." width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 2</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/G3-og.jpg" alt="Optimierung des Accuphase E-380: Teil 2">
+                                <img data-src="/bilder/klangmaximierung/G4-og-1000-opt.jpg"
+                                    alt="Eine interne Klangmaximierung bei einem Kunden." width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 2</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/G4-og.jpg" alt="Optimierung des Accuphase E-380: Teil 2">
-                                <!-- <span class="carousel-bemerkungen">Slide 2</span> -->
-                            </div>
-                            <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/F3-og.jpg" alt="Optimierung des Accuphase E-380: Teil 3">
+                                <img data-src="/bilder/klangmaximierung/F3-og-1000-opt.jpg"
+                                    alt="Platzierung der Antiresonatoren für die interne Klangmaximierung." width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 3</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/F1-og.jpg" alt="Klon des ersten Bildes" id="firstClone">
+                                <img data-src="/bilder/klangmaximierung/F1-og-1000-opt.jpg" alt="Klon des ersten Bildes: Carousel 5"
+                                    id="firstClone" width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 1</span> -->
                             </div>
                         </div>
@@ -802,7 +1981,8 @@
                                 <p>
                                     Auch bei Lautsprechern besteht die Möglichkeit, die Klangqualität via
                                     <u>internen</u> Massnahmen zu verbessern. Diese Massnahmen sind aus denselben
-                                    Gründen zu tätigen, wie für diejenigen, bei den Geräten (siehe vorheriges Kapitel). Analog zur internen Klangmaximierung der Geräte, stellt sich bei der
+                                    Gründen zu tätigen, wie für diejenigen, bei den Geräten (siehe vorheriges Kapitel).
+                                    Analog zur internen Klangmaximierung der Geräte, stellt sich bei der
                                     inneren Behandlung von Boxen die Frage, wo und wie viele Antismog &amp;
                                     Antiresonatoren in den Gehäusen angebracht werden sollen.
                                 </p>
@@ -843,8 +2023,8 @@
             <div class="flex-wrap">
                 <div class="image-flex"> <!-- style="background-image:
             url(bilder/klangoptimierung/klang.jpg)" -->
-                    <img data-lazy="./bilder/klangmaximierung/H1-og.jpg"
-                        alt="Diverse Möglichkeiten von Klangoptimierung." class="flex-background-img lazy">
+                    <img data-lazy="/bilder/klangmaximierung/H1-og-1000-opt.jpg"
+                        alt="Verschrottete alte Elektronik-Geräte." class="flex-background-img lazy" width="1000" height="1000">
                 </div>
                 <!--after pseudo image-flex-->
                 <div class="wrap-content">
@@ -864,7 +2044,9 @@
                                     <li>Wir möchten Ihnen via der Klangmaxierung helfen, das volle Potenzial aus Ihren
                                         bestehenden Hifi Gerätschaften auszuschöpfen, ohne dass Sie unnötig Geld für
                                         neue Geräte ausgeben müssen. In der Tat zeigen unsere Tests, dass durch die
-                                        Verwendung von Antismog-Klebern und Antiresonatoren, die Klangqualität von Geräten und Lautsprechern um den Faktor 2 bis 3 verbessert werden kann, und das zu vergleichsweise geringen
+                                        Verwendung von Antismog-Klebern und Antiresonatoren, die Klangqualität von
+                                        Geräten und Lautsprechern um den Faktor 2 bis 3 verbessert werden kann, und das
+                                        zu vergleichsweise geringen
                                         Kosten im Vergleich zum Preis neuer Geräte.</li>
                                     <li>Ausserdem besitzt die Entscheidung, eine Klangmaximierung zu vollziehen, auch
                                         einen umweltschonenden Charakter: indem Sie vorhandene Geräte optimieren und
@@ -900,43 +2082,57 @@
                     <div class="carousel-container carousel6">
                         <div>
                             <!-- Left Arrow -->
-                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="prevBtn" style="transform: rotate(180deg); background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;" fill="#ffffff">
-                                <path d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z"/>
+                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet"
+                                xmlns="http://www.w3.org/2000/svg" class="prevBtn"
+                                style="transform: rotate(180deg); background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;"
+                                fill="#ffffff">
+                                <path
+                                    d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z" />
                             </svg>
                         </div>
                         <div>
                             <!-- Right Arrow -->
-                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="nextBtn" style="background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;">
-                                <path fill="#ffffff" d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z"/>
+                            <svg viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet"
+                                xmlns="http://www.w3.org/2000/svg" class="nextBtn"
+                                style="background-color: rgba(152, 152, 152, 0.63); border-radius: 10px;">
+                                <path fill="#ffffff"
+                                    d="M754.752 480H160a32 32 0 1 0 0 64h594.752L521.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L754.752 480z" />
                             </svg>
                         </div>
                         <div class="carousel-slide">
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/K5-og.jpg" alt="Klon des letzten Bildes" id="lastClone">
+                                <img data-src="/bilder/klangmaximierung/K5-og-1000-opt.jpg" alt="Klon des letzten Bildes: Carousel 6"
+                                    id="lastClone" width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 3</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/K1-og.jpg" alt="Optimierung des Accuphase E-380: Teil 1">
+                                <img data-src="/bilder/klangmaximierung/K1-og-1000-opt.jpg"
+                                    alt="Demontage eines Medium-Treibers der Maestro-Utopia für eine interne Klangmaximierung" width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 1</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/K2-og.jpg" alt="Optimierung des Accuphase E-380: Teil 2">
+                                <img data-src="/bilder/klangmaximierung/K2-og-1000-opt.jpg"
+                                    alt="Nahaufnahme eines demontierten Mediumtreibers eines Lautsprechers." width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 2</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/K3-og.jpg" alt="Optimierung des Accuphase E-380: Teil 3">
+                                <img data-src="/bilder/klangmaximierung/K3-og-1000-opt.jpg"
+                                    alt="Interne Klangmaximierung einer unserer Utopia Referenz-Boxen." width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 2</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/K4-og.jpg" alt="Optimierung des Accuphase E-380: Teil 4">
+                                <img data-src="/bilder/klangmaximierung/K4-og-1000-opt.jpg"
+                                    alt="Anbringung eines Antiresonators an einer Verstrebung des Lautsprechers." width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 2</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/K5-og.jpg" alt="Optimierung des Accuphase E-380: Teil 5">
+                                <img data-src="/bilder/klangmaximierung/K5-og-1000-opt.jpg"
+                                    alt="Anbringung von Antismog-Kleber an der Rückseite eines Naim-Gerätes" width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 3</span> -->
                             </div>
                             <div class="img-carousel-wrapper">
-                                <img data-src="./bilder/klangmaximierung/K1-og.jpg" alt="Klon des ersten Bildes" id="firstClone">
+                                <img data-src="/bilder/klangmaximierung/K1-og-1000-opt.jpg" alt="Klon des ersten Bildes: Carousel 6"
+                                    id="firstClone" width="1000" height="1000">
                                 <!-- <span class="carousel-bemerkungen">Slide 1</span> -->
                             </div>
                         </div>
@@ -955,56 +2151,92 @@
                                     <!-- Tab links -->
                                     <div class="tab">
                                         <button class="tablinks tab-active" id="einsteiger">Einsteiger</button>
-                                        <button class="tablinks" id="premium">Premium</button>
-                                        <button class="tablinks" id="spitzenklasse">Spitzenklasse</button>
-                                        <button class="tablinks" id="high-end">High-End</button>
+                                        <button class="tablinks" id="premium">Klassisches Gerät</button>
+                                        <button class="tablinks" id="spitzenklasse">Klassische Box</button>
+                                        <button class="tablinks" id="high-end">Referenz-Gerät</button>
                                         <button class="tablinks" id="referenzbox">Referenzbox</button>
                                     </div>
 
                                     <!-- Tab content -->
                                     <div class="tabcontent tab-content-all einsteiger">
-                                        <p>Einsteiger Streamer Bluesound Node (599.- CHF): wie man mit zusätzlichen
-                                            300.- CHF davon eine echte kleine Referenz-Quelle macht ! Alle Details hier:
-                                            mettre le lien vers le carré optimisation du Bluesound.</p>
+                                        <p>Der <a href="/bluesound/node/" target="_blank">Streamer Bluesound Node</a> (599.- CHF) eignet sich perfekt, um den Einstieg in die Klangmaximierung zu illustrieren:</p>
+                                        
+                                        <ul>
+                                            <li><u>Gesamtpreis der Klangmaximierung (inkl. Montage)</u>: <em><span style="color: red;">CHF 300</span></em>.</li>
+                                            <li>Für weitere Details empfehlen wir den letzten Paragraphen unter "Erfahre mehr" in unserem Artikel zum Bluesound: <a href="/bluesound/node/" target="_blank">hier der Link</a>.</li>
+                                        </ul>
+
+                                        <p>
+                                            <em>
+                                                Mit dieser Massnahme verwandeln Sie den Bluesound Node in eine echte kleine Referenz-Quelle!
+                                            </em>
+                                        </p>
                                     </div>
 
                                     <!-- Tab content -->
                                     <div class="tabcontent tab-content-all premium tab-show-not">
-                                        <p>Einsteiger Vollverstärker Atoll IN100 (2x 100W, 1250.- CHF): in zwei Etappen
-                                            (350 und 490.- CHF) spielt die kompakte Maschine wie 3-Mal teuerere
-                                            Konkurrenz !</p>
+
+                                        <ul>
+                                            <li><u>Maximiertes Gerät</u>: <a href="/atoll-electronique/in-100-signature/" target="_blank">Vollverstärker Atoll IN 100</a> (CHF 1'250).</li>
+                                            <li><u>Kosten der Klangmaximierung</u>:
+                                                <ul>
+                                                    <li><u>Etappe 1</u>: CHF 350.</li>
+                                                    <li><u>Etappe 2</u>: CHF 490.
+                                                        <ul>
+                                                            <li>Total = <em><span style="color: red;">CHF 840</span></em>.</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <p>
+                                            <em>Durch die Investition in eine vollständige Klangoptimierung - das heisst in zwei Etappen (350 und 490.- CHF) - wird der Atoll IN 100 eine Klangqualität erreichen, wie die 3-mal teuerere Konkurrenz!
+                                            </em>
+                                        </p>
                                     </div>
 
                                     <!-- Tab content -->
                                     <div class="tabcontent tab-content-all spitzenklasse tab-show-not">
-                                        <p>Monitor Premium Lautsprecher Monitor Audio Silver 300 G7 (2145.- CHF / Paar):
-                                            ein kleines Tuning ab nur 88.- CHF wirkt schon wie Wunder: mehr Bass, mehr
-                                            Details, mehr Intensität ! Mit dem ganz grossen Tuning (1200.- CHF) wird die
-                                            Box für KonkurrenzModelle von 6000.- CHF / Paar gefährlich !</p>
+
+                                        <ul>
+                                            <li><u>Maximiertes Lautsprecher</u>: <a href="/monitor-audio/silver-300-7g/" target="_blank">Monitor Audio Silver 300 7G</a> (2'145.- CHF / Paar).</li>
+                                            <li><u>Kosten der Klangmaximierung</u>:
+                                                <ul>
+                                                    <li><u>Kleine Massnahmen</u>: Ein kleines Tuning ab <span style="color: red;"><em>CHF 88</em></span> wirkt bereits Wunder: profitieren Sie von mehr Bass, mehr Details, sowie mehr Intensität bei der Musikwiedergabe!</li>
+                                                    <li><u>Komplette Maximierung</u>: Mit dem grossen Tuning (<span style="color: red;"><em>1200.- CHF</em></span>) rivalisiert der Lautsprecher  mit Konkurrenz-Modellen von bis zu 6000.- CHF / Paar!</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
                                     </div>
 
                                     <!-- Tab content -->
                                     <div class="tabcontent tab-content-all high-end tab-show-not">
-                                        <p>Vollverstärker / Streamer CH-Precision I1 (2x 100W, 41kg., 38 000.- CHF):
-                                            Auch der teuerste "All-in-One" des Planeten profitiert von der OptimizeAudio
-                                            Kur. Mit 840.- CHF ist die Investition fast lächerlich (ca. 2% des
-                                            Katalogpreis). Aber das Ergebnis ist ein Schock: wir holen somit ein
-                                            Schmelz, respektiv ein Bassniveau heraus das seines Gleichen sucht.</p>
+                                        <ul>
+                                            <li><u>Maximiertes Gerät</u>: <a href="/ch-precision/i1/" target="_blank">CH Precision I1</a> (CHF 38'000).</li>
+                                            <li><u>Gesamtpreis der Klangmaximierung (inkl. Montage)</u>: <em><span style="color: red;">CHF 840</span></em>.</li>
+                                        </ul>
+
+                                        <p>
+                                            <em>
+                                                Der I1 (2x 100W, 41kg) - einer der teuersten All-in-Ones der Hifi Welt - profitiert enorm von einer Klangmaximierung. Mit einem Kostenaufwand von CHF 840 wirkt die Investition beinahe lächerlich (ca. 2% des
+                                                Katalogpreises). Das Klang-Ergebnis ist jedoch schockierend: der erreichte Schmelz bei der Musikwiedergabe, sowie die Tiefe des Bassniveaus sind unübertroffen.
+                                            </em>
+                                        </p>
                                     </div>
 
                                     <!-- Tab content -->
                                     <div class="tabcontent tab-content-all referenzbox tab-show-not">
-                                        <p>Unter Klangmaximierung werden Massnahmen bezeichnet, welche eine drastische
-                                            Erhöhung der Klangergebnisse von Lautsprecher &amp; Hifi Geräte bezweckt. Um
-                                            dieses Ziel zu erreichen, verwenden wir Schwingungs- & Antismog-Zubehör.</p>
 
-                                        <p>Referenz-Lautsprecher Stella Utopia EM (170kg. pro Stk. 120 000.- CHF /
-                                            Paar): Dank 322x (!) Antiresonatoren an und in der Box ( = 6440 CHF) spielt
-                                            jetzt diese auf dem Niveau ihrer grossen Schwester Grande Utopia EM ohne
-                                            Optimierung, welche 100 000.- CHF mehr kostet ! Dasselbe gilt für alle
-                                            unseren Utopia's: mit einer Investition von weniger als 10% des Neupreises,
-                                            spielt jede kleinere Utopia dann auf dem Niveau von ihrer grösseren
-                                            Schwester !!</p>
+                                        <ul>
+                                            <li><u>Maximierter Lautsprecher</u>: <a href="/focal/stella-utopia-evo/" target="_blank">Focal Stella Utopia</a> (230'000.- CHF / Paar).</li>
+                                            <li><u>Gesamtpreis der Klangmaximierung (inkl. Montage)</u>: <em><span style="color: red;">CHF 6'440</span></em>.</li>
+                                        </ul>
+
+                                        <p>
+                                            <em>
+                                                Durch die Anbringung von 322(!) Antiresonatoren an und im Inneren der Box (CHF 6'440) spielt die Stella Utopia auf dem Niveau ihrer grossen Schwester, die Grande Utopia EM  - ohne Optimierung - welche CHF 100'000 mehr kostet! Dieselbe Logik kann nun auf alle unsere Utopias angewendet werden: mit einer Investition von weniger als 10% des Neupreises, spielt eine klangmaximierte, kleinere Utopia entsprechend auf dem Niveau ihrer grösseren Schwester!
+                                            </em>
+                                        </p>
                                     </div>
                                 </div>
 
@@ -1066,7 +2298,7 @@
                 </div>
 
                 <div class="contact-right">
-                    <img data-lazy="/bilder/kontakt/contact-2.jpg" alt="contact image" class="lazy">
+                    <img data-lazy="/bilder/kontakt/contact-2.jpg" alt="contact image" class="lazy" width="1200" height="755">
                 </div>
             </div>
         </div>
@@ -1265,8 +2497,10 @@
                 this.carouselImages.forEach(image => {
                     imageObserver.observe(image);
                 });
-            } // End of "Constructor"
+            } 
+            // -- End of "Constructor" 👆 --
 
+            // ---- Methoden-Teil beginnt ab hier 👇 -------
             // Method that will stop the automatic transitions once you click on the "previous" & "next" buttons...
             stopAutomaticTransition() {
                 clearInterval(this.intervalId);
